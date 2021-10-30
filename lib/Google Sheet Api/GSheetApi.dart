@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fooddeliveryapp/GlobalVariable/GlobalVariable.dart';
 import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
 import 'package:gsheets/gsheets.dart';
@@ -17,8 +18,9 @@ class GSheetApi {
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/crust-food%40xenon-timer-329913.iam.gserviceaccount.com"
 }
 ''';
-  static final _spreadSheetId = "12R69TvaM_7AgU4IurZUqRcZl2-vuBwg2GbViiLTcPb8";
+  static final _spreadSheetId = "1fAJ7P_JaoCo24EeUsYT1koR5cmHTRsS77oaWVkYGClo";
   static final _gsheet = GSheets(_credentials);
+
   static Worksheet trissurtownSheet,
       guruvayoorSheet,
       kannurSheet,
@@ -67,7 +69,7 @@ class GSheetApi {
           await _getWorksheet(spreadSheet, title: "Perinthalmanna - mannarkad");
       localrootsSheet = await _getWorksheet(spreadSheet, title: "Local roots");
 
-      final firstRow = OrderSheetModel.getFields();
+      final firstRow = await OrderSheetModel.getFields() as List;
       trissurtownSheet.values.insertRow(1, firstRow);
       guruvayoorSheet.values.insertRow(1, firstRow);
       kannurSheet.values.insertRow(1, firstRow);

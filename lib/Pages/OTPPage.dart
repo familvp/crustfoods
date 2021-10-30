@@ -29,7 +29,6 @@ class _OTPPageState extends State<OTPPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     verifyPhoneNumber();
   }
@@ -71,7 +70,7 @@ class _OTPPageState extends State<OTPPage> {
                 " We Sent Verification Code to ${widget.phoneNumber}",
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white,
+                  color: Color(0xff707070),
                   fontFamily: "Montserrat",
                 ),
                 textAlign: TextAlign.center,
@@ -123,7 +122,7 @@ class _OTPPageState extends State<OTPPage> {
                       });
                     } catch (e) {
                       FocusScope.of(context).unfocus();
-                      _showSnackBar("Invalied OTP");
+                      _showSnackBar("Invalid OTP");
                     }
                   },
                 ),

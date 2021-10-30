@@ -1,12 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
 import 'package:fooddeliveryapp/Pages/SignInPage.dart';
-import 'package:fooddeliveryapp/Theme/Theme.dart';
-
-import 'MainPage.dart';
 
 class OnBoardingScreens extends StatefulWidget {
   static String id = "OnBoardingScreens";

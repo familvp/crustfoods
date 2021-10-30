@@ -15,7 +15,6 @@ import 'package:fooddeliveryapp/Pages/AboutUs.dart';
 import 'package:fooddeliveryapp/Provider/CartItem.dart';
 import 'package:fooddeliveryapp/Theme/Theme.dart';
 import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
-import 'package:fooddeliveryapp/model/UserModel.dart';
 import 'package:fooddeliveryapp/model/foodModel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -377,8 +376,8 @@ class _HomeState extends State<Home> {
           ),
           body: TabBarView(children: [
             foodView("Bun"),
-            foodView("PizzaBase"),
             foodView("Breads"),
+            foodView("PizzaBase"),
             foodView("Cookies"),
             foodView("Rusks"),
             foodView("cake"),
@@ -633,7 +632,8 @@ class _HomeState extends State<Home> {
       final saveToGSheet = {
         OrderSheetModel.userName: snapshot?.data()["UserName"],
         OrderSheetModel.foodName: fdModel.title,
-        OrderSheetModel.quantity: fdModel.quantity,
+        OrderSheetModel.quantity: "3232",
+        "ddsd": "sdds",
         OrderSheetModel.date: DateTime.now().toString(),
       };
 

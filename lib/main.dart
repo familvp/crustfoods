@@ -19,8 +19,10 @@ bool rememberMe = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   await GSheetApi.init();
+
   SharedPreferences preferences = await SharedPreferences.getInstance();
   rememberMe = await preferences.getBool("rememberMe");
 

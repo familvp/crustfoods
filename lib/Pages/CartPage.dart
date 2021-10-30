@@ -9,10 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fooddeliveryapp/Firebase/DBFireStore.dart';
 import 'package:fooddeliveryapp/Firebase/FBAuth.dart';
-import 'package:fooddeliveryapp/Google%20Sheet%20Api/GSheetApi.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
 import 'package:fooddeliveryapp/Provider/CartItem.dart';
-import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
 import 'package:fooddeliveryapp/model/foodModel.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
@@ -100,23 +98,13 @@ class _CartPageState extends State<CartPage> {
   }
 
   void placeOrder(List<FoodModel> foodModel) async {
-    List<Map<String, dynamic>> orderListFood = [];
+    List<String> orderListFood = [];
 
     for (var foods in foodModel) {
       orderListFood.addAll([
-        {"tittle": foods.title, "qty": foods.quantity},
+        foods.title,
+        foods.quantity.toString(),
       ]);
-    }
-    for (var i = 0; i <= foodModel.length; i++) {
-      /* var saveToGSheet = {
-        OrderSheetModel.userName: snapshot?.data()["UserName"],
-        OrderSheetModel.foodName: orderListFood[i]['tittle'].toString(),
-        OrderSheetModel.quantity: orderListFood[i]['qty'].toString(),
-        OrderSheetModel.date: DateTime.now().toString(),
-      };
-
-      await GSheetApi.insert([saveToGSheet]);*/
-      print(foodModel[i]);
     }
 
     // save Orders For Current User
@@ -153,7 +141,6 @@ class _CartPageState extends State<CartPage> {
 
     // clear all foods in cartPage
     Provider.of<CartItems>(context, listen: false).deleteAllFoods();
-    orderListFood.clear();
     // show Dialog Success Order has been placed
     showDialog(
         context: context,
@@ -436,7 +423,7 @@ class _CartPageState extends State<CartPage> {
                                                   Container(
                                                     width: 60,
                                                     child: Text(
-                                                      "\$${Decimal.parse((double.parse(cartFood[index].price)).toString()) * Decimal.parse(cartFood[index].quantity.toString())}",
+                                                      "\₹${Decimal.parse((double.parse(cartFood[index].price)).toString()) * Decimal.parse(cartFood[index].quantity.toString())}",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,

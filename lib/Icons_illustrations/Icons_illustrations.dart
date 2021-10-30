@@ -14,12 +14,12 @@ const signUp = "assets/illustrations/signUp.svg";
 const otp = "assets/illustrations/otp_verification.svg";
 
 //icons_food_Category
-const icon_Bun = "assets/icons/burger.svg";
+const icon_Bun = "assets/icons/bread.svg";
 const icon_cake = "assets/icons/cake.svg";
 const icon_juice = "assets/icons/juice.svg";
-const icon_Breads = "assets/icons/keto.svg";
-const icon_Rusks = "assets/icons/lean_and_mean.svg";
-const icon_Cookies = "assets/icons/paleo.svg";
+const icon_Breads = "assets/icons/milkbread.svg";
+const icon_Rusks = "assets/icons/cookies.svg";
+const icon_Cookies = "assets/icons/toast.svg";
 const icon_PizzaBase = "assets/icons/pizza.svg";
 
 // logo foods company

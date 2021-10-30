@@ -3,9 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fooddeliveryapp/Firebase/DBFireStore.dart';
 import 'package:fooddeliveryapp/Firebase/FBAuth.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
-import 'package:fooddeliveryapp/Pages/AboutUs.dart';
 import 'package:fooddeliveryapp/Pages/OrderDetails.dart';
-import 'package:fooddeliveryapp/main.dart';
 import 'package:fooddeliveryapp/model/orderModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 

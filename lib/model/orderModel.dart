@@ -1,11 +1,6 @@
-
-
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class OrderModel{
-
+class OrderModel {
   String documentId;
   String orderNumber;
   double totalPrice;
@@ -18,19 +13,16 @@ class OrderModel{
   Timestamp dateTime;
   List<dynamic> foodList;
 
-
-  OrderModel({
-
-    this.documentId,
-    this.orderNumber,
-    this.totalPrice,
-    this.totalQuantity,
-    this.shippingPrice,
-    this.phoneNumber,
-    this.userName,
-    this.routes,
-    this.orderStatus,
-    this.dateTime,
-    this.foodList
-});
+  OrderModel(
+      {this.documentId,
+      this.orderNumber,
+      this.totalPrice,
+      this.totalQuantity,
+      this.shippingPrice,
+      this.phoneNumber,
+      this.userName,
+      this.routes,
+      this.orderStatus,
+      this.dateTime,
+      this.foodList});
 }

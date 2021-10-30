@@ -19,8 +19,8 @@ class FBAuth {
     return await _auth.currentUser.uid;
   }
 
-  Future<User> getUser() async {
-    return await _auth.currentUser;
+  User getUser() {
+    return _auth.currentUser;
   }
 
   Future<void> signOut() async {

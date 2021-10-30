@@ -23,6 +23,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  TextEditingController controller = TextEditingController(text: "+91");
 
   final _auth = FBAuth();
 
@@ -239,6 +240,7 @@ class _SignInPageState extends State<SignInPage> {
                     width: MediaQuery.of(context).size.width,
                     child: Center(
                       child: TextFormField(
+                        controller: controller,
                         keyboardType: TextInputType.phone,
                         maxLength: 15,
                         validator: (value) {
