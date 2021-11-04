@@ -30,10 +30,10 @@ class _HomeState extends State<Home> {
   final FBAuth fbAuth = FBAuth();
   List<FoodModel> _list = [];
   bool drawerCanOpen = true;
+  List<TextEditingController> textEditingController = [];
 
   bool themeSwitch = false;
-
-  int quantity = 1;
+  List<int> listQty = [];
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                                     // snapshot.data() == null
                                     //   ? '${snapshot?.data()["UserName"]?.toString()}'
                                     //   : "User",
-                                    "User",
+                                    snapshot?.data()["UserName"],
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class _HomeState extends State<Home> {
                                   height: 5,
                                 ),
                                 Text(
-                                  'I\'m a Client',
+                                  snapshot?.data()["PhoneNumber"],
                                   style: TextStyle(fontFamily: "Montserrat"),
                                 ),
                               ],
@@ -334,14 +334,14 @@ class _HomeState extends State<Home> {
                         ),
                         Tab(
                           child: SvgPicture.asset(
-                            icon_PizzaBase,
+                            icon_Breads,
                             height: 60,
                             width: 60,
                           ),
                         ),
                         Tab(
                           child: SvgPicture.asset(
-                            icon_Breads,
+                            icon_PizzaBase,
                             height: 60,
                             width: 60,
                           ),
@@ -397,6 +397,7 @@ class _HomeState extends State<Home> {
               _foodModel.add(FoodModel(
                 image: data["foodImage"],
                 title: data["foodTitle"],
+                shortname: data["foodshortname"],
                 price: data["foodPrice"],
                 category: data["foodCategory"],
               ));
@@ -411,6 +412,8 @@ class _HomeState extends State<Home> {
                     crossAxisCount: 2, childAspectRatio: 0.50),
                 itemCount: _foodModel.length,
                 itemBuilder: (context, index) {
+                  listQty.add(1);
+                  textEditingController.add(TextEditingController(text: "1"));
                   return GestureDetector(
                     onTap: () {
                       // Navigator.pushNamed(context, FoodDetails.id);
@@ -462,79 +465,25 @@ class _HomeState extends State<Home> {
                               height: 7,
                             ),
                             Container(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    height: 38,
-                                    width: 38,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.05),
-                                          spreadRadius: 3,
-                                          blurRadius: 4,
-                                          offset: Offset(0,
-                                              2), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_left,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            if (quantity != 1) {
-                                              quantity--;
-                                            }
-                                          });
-                                        }),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Text(
-                                    "$quantity",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "Montserrat"),
-                                  ),
-                                  SizedBox(
-                                    width: 15,
-                                  ),
-                                  Container(
-                                    height: 38,
-                                    width: 38,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(0.05),
-                                          spreadRadius: 3,
-                                          blurRadius: 4,
-                                          offset: Offset(0,
-                                              2), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: IconButton(
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_right,
-                                          color: Colors.black,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            quantity++;
-                                          });
-                                        }),
-                                  ),
-                                ],
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.10),
+                              child: Expanded(
+                                child: TextField(
+                                  keyboardType: TextInputType.number,
+                                  controller: textEditingController[index],
+                                  textAlign: TextAlign.center,
+                                  onChanged: (value) {
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                      fontFamily: "Montserrat"),
+                                ),
                               ),
                             ),
                             SizedBox(
@@ -546,7 +495,20 @@ class _HomeState extends State<Home> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      addToCart(context, _foodModel[index]);
+                                      addToCart(
+                                          context,
+                                          _foodModel[index],
+                                          index,
+                                          int.tryParse(textEditingController[
+                                                          index]
+                                                      .text
+                                                      .isEmpty ||
+                                                  textEditingController[index]
+                                                          .text ==
+                                                      "0"
+                                              ? 1
+                                              : textEditingController[index]
+                                                  .text));
                                     },
                                     child: Container(
                                       height: 50,
@@ -590,7 +552,12 @@ class _HomeState extends State<Home> {
         });
   }
 
-  Future<void> addToCart(context, FoodModel fdModel) async {
+  Future<void> addToCart(
+    context,
+    FoodModel fdModel,
+    int index,
+    int quantity,
+  ) async {
     CartItems cartItem = Provider.of<CartItems>(context, listen: false);
     fdModel.quantity = quantity;
     bool exist = false;
@@ -627,23 +594,11 @@ class _HomeState extends State<Home> {
     } else {
       // save each order food to google sheet
 
-      final id = await GSheetApi.getRowCount() + 1;
-
-      final saveToGSheet = {
-        OrderSheetModel.userName: snapshot?.data()["UserName"],
-        OrderSheetModel.foodName: fdModel.title,
-        OrderSheetModel.quantity: "3232",
-        "ddsd": "sdds",
-        OrderSheetModel.date: DateTime.now().toString(),
-      };
-
-      await GSheetApi.insert([saveToGSheet]);
+      // final int id = await GSheetApi.getRowCount() + 1;
 
       cartItem.addFood(fdModel);
 
-      setState(() {
-        quantity = 1;
-      });
+      setState(() {});
 
       showDialog(
           context: context,

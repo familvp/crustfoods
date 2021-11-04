@@ -33,6 +33,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       image: data["foodImage"],
                       title: data["foodTitle"],
                       price: data["foodPrice"],
+                      shortname: data["foodshortname"],
                       quantity: data["foodQuantity"],
                     ));
                   }

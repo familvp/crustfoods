@@ -9,8 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fooddeliveryapp/Firebase/DBFireStore.dart';
 import 'package:fooddeliveryapp/Firebase/FBAuth.dart';
+import 'package:fooddeliveryapp/Google%20Sheet%20Api/GSheetApi.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
 import 'package:fooddeliveryapp/Provider/CartItem.dart';
+import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
 import 'package:fooddeliveryapp/model/foodModel.dart';
 import 'package:provider/provider.dart';
 import 'package:random_string/random_string.dart';
@@ -25,7 +27,7 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  DBFireStore dbFireStore = DBFireStore();
+  final DBFireStore dbFireStore = DBFireStore();
   final _auth = FBAuth();
 
   // Group Value for Radio Button.
@@ -97,7 +99,7 @@ class _CartPageState extends State<CartPage> {
     return price;
   }
 
-  void placeOrder(List<FoodModel> foodModel) async {
+  Future placeOrder(List<FoodModel> foodModel) async {
     List<String> orderListFood = [];
 
     for (var foods in foodModel) {
@@ -106,6 +108,17 @@ class _CartPageState extends State<CartPage> {
         foods.quantity.toString(),
       ]);
     }
+
+    final Map<String, dynamic> saveToGSheet = {
+      OrderSheetModel.userName: snapshot?.data()["UserName"],
+      // OrderSheetModel.qtyposition: (index + 1).toString(),
+    };
+
+    for (var i = 0; i < foodModel.length; i++) {
+      saveToGSheet[foodModel[i].shortname.toString()] = foodModel[i].quantity;
+    }
+
+    await GSheetApi().insert([saveToGSheet]);
 
     // save Orders For Current User
     dbFireStore.saveOrderForUser(
@@ -123,48 +136,29 @@ class _CartPageState extends State<CartPage> {
       },
     );
 
-    // save orders to crust food admin app
-    dbFireStore.saveOrderForAdmin(
-      {
-        "totalPrice": getTotalPrice(foodModel).toDouble(),
-        "totalQuantity": getTotalQuantity(foodModel),
-        "ShippingPrice": getShippingPrice(foodModel),
-        "address": snapshot.data()["Routes"],
-        "userName": snapshot.data()["UserName"],
-        "phoneNumber": snapshot.data()["PhoneNumber"],
-        "orderNumber": randomNumeric(9),
-        "orderStatus": "Order Received",
-        "dateTime": DateTime.now(),
-        "ListFood": orderListFood
-      },
-    );
+    //save orders to crust food admin app
+    try {
+      await dbFireStore.saveOrderForAdmin(
+        {
+          "totalPrice": getTotalPrice(foodModel).toDouble(),
+          "totalQuantity": getTotalQuantity(foodModel),
+          "ShippingPrice": getShippingPrice(foodModel),
+          "address": snapshot.data()["Routes"],
+          "userName": snapshot.data()["UserName"],
+          "phoneNumber": snapshot.data()["PhoneNumber"],
+          "orderNumber": randomNumeric(9),
+          "orderStatus": "Order Received",
+          "dateTime": DateTime.now(),
+          "ListFood": orderListFood
+        },
+      );
+    } catch (e) {
+      print(e.toString());
+    }
 
     // clear all foods in cartPage
     Provider.of<CartItems>(context, listen: false).deleteAllFoods();
     // show Dialog Success Order has been placed
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-            child: AlertDialog(
-              title: Icon(
-                Icons_foodApp.order_success,
-                size: 35,
-                color: Colors.green,
-              ),
-              content: Text(
-                "Order has been Placed",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: "Montserrat",
-                  color: Color(0xff707070),
-                ),
-              ),
-            ),
-          );
-        });
   }
 
   @override

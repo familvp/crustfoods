@@ -11,7 +11,7 @@ class OrderModel {
   String routes;
   String orderStatus;
   Timestamp dateTime;
-  List<dynamic> foodList;
+  List listFood;
 
   OrderModel(
       {this.documentId,
@@ -24,5 +24,5 @@ class OrderModel {
       this.routes,
       this.orderStatus,
       this.dateTime,
-      this.foodList});
+      this.listFood});
 }

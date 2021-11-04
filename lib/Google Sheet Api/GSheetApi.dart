@@ -18,9 +18,8 @@ class GSheetApi {
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/crust-food%40xenon-timer-329913.iam.gserviceaccount.com"
 }
 ''';
-  static final _spreadSheetId = "1fAJ7P_JaoCo24EeUsYT1koR5cmHTRsS77oaWVkYGClo";
-  static final _gsheet = GSheets(_credentials);
-
+  final _spreadSheetId = "1UIPJOJV-Nv2PppiilDdL4N4YnhHsHTyMiwt1mYKsRwg";
+  final _gsheet = GSheets(_credentials);
   static Worksheet trissurtownSheet,
       guruvayoorSheet,
       kannurSheet,
@@ -37,11 +36,13 @@ class GSheetApi {
       perinthalmannaSheet,
       localrootsSheet;
 
-  static Future init() async {
+  Future init() async {
     try {
       final spreadSheet = await _gsheet.spreadsheet(_spreadSheetId);
+      print("initrun$trissurtownSheet");
       trissurtownSheet =
           await _getWorksheet(spreadSheet, title: "Trissur town");
+
       guruvayoorSheet =
           await _getWorksheet(spreadSheet, title: "Guruvayoor - trpryar");
       kannurSheet =
@@ -69,7 +70,8 @@ class GSheetApi {
           await _getWorksheet(spreadSheet, title: "Perinthalmanna - mannarkad");
       localrootsSheet = await _getWorksheet(spreadSheet, title: "Local roots");
 
-      final firstRow = await OrderSheetModel.getFields() as List;
+      final List firstRow = await OrderSheetModel().getFields();
+
       trissurtownSheet.values.insertRow(1, firstRow);
       guruvayoorSheet.values.insertRow(1, firstRow);
       kannurSheet.values.insertRow(1, firstRow);
@@ -90,7 +92,7 @@ class GSheetApi {
     }
   }
 
-  static Future<Worksheet> _getWorksheet(Spreadsheet spreadsheet,
+  Future<Worksheet> _getWorksheet(Spreadsheet spreadsheet,
       {String title}) async {
     try {
       return await spreadsheet.addWorksheet(title);
@@ -99,7 +101,7 @@ class GSheetApi {
     }
   }
 
-  static Future<int> getRowCount() async {
+  Future<int> getRowCount() async {
     if (trissurtownSheet == null || guruvayoorSheet == null) {
       return 0;
     }
@@ -108,7 +110,7 @@ class GSheetApi {
     return lastRow == null ? 0 : int.tryParse(lastRow.first) ?? 0;
   }
 
-  static Future insert(List<Map<String, dynamic>> rowList) async {
+  Future insert(List<Map<String, dynamic>> rowList) async {
     if (trissurtownSheet == null ||
         guruvayoorSheet == null ||
         kannurSheet == null ||
@@ -128,11 +130,11 @@ class GSheetApi {
     }
 
     if (snapshot?.data()["Routes"] == "Trissur town")
-      trissurtownSheet.values.map.appendRows(rowList);
+      return await trissurtownSheet.values.map.appendRows(rowList);
     else if (snapshot?.data()["Routes"] == "Guruvayoor - trpryar")
       guruvayoorSheet.values.map.appendRows(rowList);
     else if (snapshot?.data()["Routes"] == "Kannur - thalasseri")
-      kannurSheet.values.map.appendRows(rowList);
+      return await kannurSheet.values.map.appendRows(rowList);
     else if (snapshot?.data()["Routes"] == "Thaliparambu - kaserkod")
       thaliparambuSheet.values.map.appendRows(rowList);
     else if (snapshot?.data()["Routes"] == "Manjeri - wandoor")

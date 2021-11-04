@@ -50,11 +50,11 @@ class DBFireStore {
     orderUser.set(orders);
   }
 
-  saveOrderForAdmin(orders) {
+  Future saveOrderForAdmin(Map<String, dynamic> orders) async {
     final User user = _auth.currentUser;
-    final uid = user.uid;
-
-    var userOrder = _firestore.collection("OrderHistory").doc(uid);
-    userOrder.set(orders);
+    final String uid = user.uid;
+    await _firestore.collection("OrderHistory").doc(uid).set(
+          orders,
+        );
   }
 }

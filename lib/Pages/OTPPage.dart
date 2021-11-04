@@ -151,7 +151,7 @@ class _OTPPageState extends State<OTPPage> {
           });
         },
         verificationFailed: (FirebaseException e) {
-          print(e.message);
+          
         },
         codeSent: (String verificationID, int resendToken) {
           setState(() {

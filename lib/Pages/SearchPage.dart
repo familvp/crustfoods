@@ -93,6 +93,7 @@ class _SearchPageState extends State<SearchPage> {
                       _foodModel.add(FoodModel(
                         image: data["foodImage"],
                         title: data["foodTitle"],
+                        shortname: data["foodshortname"],
                         price: data["foodPrice"],
                         category: data["foodCategory"],
                       ));
@@ -243,8 +244,8 @@ class _SearchPageState extends State<SearchPage> {
                                         children: [
                                           GestureDetector(
                                             onTap: () {
-                                              addToCart(
-                                                  context, _foodModel[index]);
+                                              addToCart(context,
+                                                  _foodModel[index], index);
                                             },
                                             child: Container(
                                               height: 60,
@@ -297,7 +298,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<void> addToCart(context, FoodModel fdModel) async {
+  Future<void> addToCart(context, FoodModel fdModel, int index) async {
     CartItems cartItem = Provider.of<CartItems>(context, listen: false);
     fdModel.quantity = quantity;
     bool exist = false;
@@ -334,16 +335,13 @@ class _SearchPageState extends State<SearchPage> {
     } else {
       // save each order food to google sheet
 
-      final id = await GSheetApi.getRowCount() + 1;
-
       final saveToGSheet = {
         OrderSheetModel.userName: snapshot?.data()["UserName"],
-        OrderSheetModel.foodName: fdModel.title,
-        OrderSheetModel.quantity: fdModel.quantity,
-        OrderSheetModel.date: DateTime.now().toString(),
+        fdModel.title: fdModel.quantity,
+        OrderSheetModel().date: DateTime.now().toString(),
       };
 
-      await GSheetApi.insert([saveToGSheet]);
+      await GSheetApi().insert([saveToGSheet]);
 
       cartItem.addFood(fdModel);
 
