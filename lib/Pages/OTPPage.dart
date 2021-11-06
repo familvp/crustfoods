@@ -110,7 +110,7 @@ class _OTPPageState extends State<OTPPage> {
                     try {
                       await FirebaseAuth.instance
                           .signInWithCredential(PhoneAuthProvider.credential(
-                              verificationId: _verificationCode, smsCode: pin))
+                          verificationId: _verificationCode, smsCode: pin))
                           .then((value) {
                         if (value.user != null) {
                           _auth.saveUserData(widget.userName,
@@ -124,7 +124,9 @@ class _OTPPageState extends State<OTPPage> {
                       FocusScope.of(context).unfocus();
                       _showSnackBar("Invalid OTP");
                     }
-                  },
+                  }
+
+
                 ),
               ),
             ],
@@ -148,6 +150,7 @@ class _OTPPageState extends State<OTPPage> {
               Navigator.pushNamedAndRemoveUntil(
                   context, MainPage.id, (route) => false);
             }
+
           });
         },
         verificationFailed: (FirebaseException e) {

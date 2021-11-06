@@ -14,7 +14,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "280897502262-9f398321i810lh0a6i74p3e7bk79akg8.apps.googleusercontent.com",
+          "client_id": "280897502262-gc57kbk3t3qkui2ueavur1khiqvdcuf6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.famil.crustfood",
@@ -87,7 +87,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:280897502262:android:1be630a45de8c8dfcf6c97",
+        "mobilesdk_app_id": "1:280897502262:android:e3f96219d66f059fcf6c97",
         "android_client_info": {
           "package_name": "com.famil.crustfoodadminn"
         }

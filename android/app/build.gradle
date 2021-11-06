@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 29
 
     lintOptions {
         disable 'InvalidPackage'
@@ -35,7 +35,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.famil.crustfood"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         multiDexEnabled true
@@ -54,8 +54,10 @@ android {
             minifyEnabled false
         }
     }
+    ndkVersion "23.1.7779620"
 }
 apply plugin: 'com.google.gms.google-services'
+
 
 
 flutter {
@@ -66,6 +68,7 @@ dependencies {
     // ...
 
     implementation 'com.android.support:multidex:1.0.3'
+    implementation "androidx.browser:browser:1.3.0"
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
     implementation platform('com.google.firebase:firebase-bom:29.0.0')

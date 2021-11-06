@@ -103,10 +103,7 @@ class _HomeState extends State<Home> {
                                 Container(
                                   width: 160,
                                   child: Text(
-                                    // snapshot.data() == null
-                                    //   ? '${snapshot?.data()["UserName"]?.toString()}'
-                                    //   : "User",
-                                    snapshot?.data()["UserName"],
+                                     "User",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -118,7 +115,7 @@ class _HomeState extends State<Home> {
                                   height: 5,
                                 ),
                                 Text(
-                                  snapshot?.data()["PhoneNumber"],
+                                  "PhoneNumber",
                                   style: TextStyle(fontFamily: "Montserrat"),
                                 ),
                               ],
@@ -377,10 +374,10 @@ class _HomeState extends State<Home> {
           body: TabBarView(children: [
             foodView("Bun"),
             foodView("Breads"),
+            foodView("Kuboos"),
             foodView("PizzaBase"),
             foodView("Cookies"),
-            foodView("Rusks"),
-            foodView("cake"),
+            foodView("Toast"),
           ]),
         ));
   }
@@ -468,7 +465,8 @@ class _HomeState extends State<Home> {
                               padding: EdgeInsets.symmetric(
                                   horizontal:
                                       MediaQuery.of(context).size.width * 0.10),
-                              child: Expanded(
+                              child: Container(
+                                height: 35,
                                 child: TextField(
                                   keyboardType: TextInputType.number,
                                   controller: textEditingController[index],
