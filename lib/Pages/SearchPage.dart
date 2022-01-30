@@ -13,12 +13,17 @@ import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
 import 'package:fooddeliveryapp/model/foodModel.dart';
 import 'package:provider/provider.dart';
 
+
+
 class SearchPage extends StatefulWidget {
+  static String id = "SearchPage";
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+
+
   String name = "";
 
   int quantity = 1;
@@ -38,26 +43,30 @@ class _SearchPageState extends State<SearchPage> {
                   elevation: 3,
                   semanticContainer: true,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12)
+                  ),
                   child: Center(
                     child: TextField(
-                      onChanged: (value) {
+                      onChanged: (value){
                         setState(() {
                           name = value;
                         });
                       },
                       autocorrect: true,
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Montserrat",
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Montserrat",
                         color: Color(0xff707070),
                       ),
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
-                          hintText: "what would like to eat?",
+                          hintText: "what would like to Order?",
                           hintStyle:
-                              TextStyle(fontSize: 17, fontFamily: "Montserrat"),
+                          TextStyle(
+                              fontSize: 17,
+                              fontFamily: "Montserrat"
+                              ),
                           border: InputBorder.none),
                     ),
                   ),
@@ -65,11 +74,13 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
             SizedBox(
-              height: 10,
-            ),
+                height: 10,
+              ),
             Text(
-              "Find Your Favorite Foods in Our Shop",
-              style: TextStyle(fontFamily: "Montserrat"),
+              "Find Your Favorite Iteams in Our Shop",
+              style: TextStyle(
+                  fontFamily: "Montserrat"
+              ),
             ),
             SizedBox(
               height: 10,
@@ -78,14 +89,12 @@ class _SearchPageState extends State<SearchPage> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: (name != "" && name != null)
                     ? FirebaseFirestore.instance
-                        .collection('foods')
-                        .where("searchIndex", arrayContains: name)
-                        .snapshots()
-                    : FirebaseFirestore.instance
-                        .collection("foods")
-                        .snapshots(),
+                    .collection('foods')
+                    .where("searchIndex", arrayContains: name)
+                    .snapshots()
+                    : FirebaseFirestore.instance.collection("foods").snapshots(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if(snapshot.hasData){
                     List<FoodModel> _foodModel = [];
                     for (var doc in snapshot.data.docs) {
                       var data = doc.data();
@@ -93,25 +102,29 @@ class _SearchPageState extends State<SearchPage> {
                       _foodModel.add(FoodModel(
                         image: data["foodImage"],
                         title: data["foodTitle"],
-                        shortname: data["foodshortname"],
                         price: data["foodPrice"],
                         category: data["foodCategory"],
                       ));
+
                     }
                     return GridView.builder(
-                        padding: EdgeInsets.only(
-                            left: 10, right: 10, top: 10, bottom: 100),
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 100),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, childAspectRatio: 0.50),
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.50
+                        ),
                         itemCount: snapshot.data.docs.length,
-                        itemBuilder: (context, index) {
+                        itemBuilder: (context, index){
                           DocumentSnapshot data = snapshot.data.docs[index];
                           return GestureDetector(
-                            onTap: () {},
+                            onTap: (){
+
+                            },
                             child: Card(
                               elevation: 3,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25)),
+                                  borderRadius: BorderRadius.circular(25)
+                              ),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Column(
@@ -123,8 +136,8 @@ class _SearchPageState extends State<SearchPage> {
                                         imageUrl: data.data()["foodImage"],
                                         placeholder: (context, url) =>
                                             CircularProgressIndicator(
-                                          backgroundColor: Colors.black,
-                                        ),
+                                              backgroundColor: Colors.black,
+                                            ),
                                         height: 100,
                                         width: 100,
                                       ),
@@ -138,7 +151,8 @@ class _SearchPageState extends State<SearchPage> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18,
-                                          fontFamily: "Montserrat"),
+                                          fontFamily: "Montserrat"
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 7,
@@ -148,46 +162,41 @@ class _SearchPageState extends State<SearchPage> {
                                       style: TextStyle(
                                           color: Color(0xff0A9400),
                                           fontSize: 20,
-                                          fontFamily: "Montserrat"),
+                                          fontFamily: "Montserrat"
+                                      ),
                                     ),
                                     SizedBox(
                                       height: 7,
                                     ),
                                     Container(
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
                                             height: 40,
                                             width: 40,
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
+                                              borderRadius: BorderRadius.circular(30),
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
+                                                  color: Colors.black.withOpacity(0.1),
                                                   spreadRadius: 3,
                                                   blurRadius: 4,
-                                                  offset: Offset(0,
-                                                      2), // changes position of shadow
+                                                  offset: Offset(0, 2), // changes position of shadow
                                                 ),
                                               ],
                                             ),
                                             child: IconButton(
-                                                icon: Icon(
-                                                  Icons.keyboard_arrow_left,
-                                                  color: Colors.black,
-                                                ),
-                                                onPressed: () {
+                                                icon: Icon(Icons.keyboard_arrow_left,color: Colors.black,),
+                                                onPressed: (){
                                                   setState(() {
-                                                    if (quantity != 1) {
+                                                    if(quantity != 1){
                                                       quantity--;
                                                     }
                                                   });
-                                                }),
+                                                }
+                                            ),
                                           ),
                                           SizedBox(
                                             width: 15,
@@ -197,7 +206,8 @@ class _SearchPageState extends State<SearchPage> {
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.bold,
-                                                fontFamily: "Montserrat"),
+                                                fontFamily: "Montserrat"
+                                            ),
                                           ),
                                           SizedBox(
                                             width: 15,
@@ -206,30 +216,25 @@ class _SearchPageState extends State<SearchPage> {
                                             height: 40,
                                             width: 40,
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
+                                              borderRadius: BorderRadius.circular(30),
                                               color: Colors.white,
                                               boxShadow: [
                                                 BoxShadow(
-                                                  color: Colors.black
-                                                      .withOpacity(0.1),
+                                                  color: Colors.black.withOpacity(0.1),
                                                   spreadRadius: 3,
                                                   blurRadius: 4,
-                                                  offset: Offset(0,
-                                                      2), // changes position of shadow
+                                                  offset: Offset(0, 2), // changes position of shadow
                                                 ),
                                               ],
                                             ),
                                             child: IconButton(
-                                                icon: Icon(
-                                                  Icons.keyboard_arrow_right,
-                                                  color: Colors.black,
-                                                ),
-                                                onPressed: () {
+                                                icon: Icon(Icons.keyboard_arrow_right,color: Colors.black,),
+                                                onPressed: (){
                                                   setState(() {
                                                     quantity++;
                                                   });
-                                                }),
+                                                }
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -239,13 +244,11 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                     Container(
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           GestureDetector(
-                                            onTap: () {
-                                              addToCart(context,
-                                                  _foodModel[index], index);
+                                            onTap: (){
+                                              addToCart(context, _foodModel[index]);
                                             },
                                             child: Container(
                                               height: 60,
@@ -254,25 +257,24 @@ class _SearchPageState extends State<SearchPage> {
                                                 elevation: 3,
                                                 color: Colors.white,
                                                 shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12)),
+                                                    borderRadius: BorderRadius.circular(12)
+                                                ),
                                                 child: Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                     "add to cart",
                                                     style: TextStyle(
                                                         fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily:
-                                                            "Montserrat",
-                                                        color: Colors.black),
+                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily: "Montserrat",
+                                                        color: Colors.black
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
+
                                         ],
                                       ),
                                     ),
@@ -281,13 +283,17 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                             ),
                           );
-                        });
-                  } else {
+                        }
+                    );
+                  }
+                  else{
                     return Center(
                         child: SpinKitRipple(
-                      size: 70,
-                      color: Color(0xffFFDB84),
-                    ));
+                          size: 70,
+                          color: Color(0xffFFDB84),
+
+                        )
+                    );
                   }
                 },
               ),
@@ -298,22 +304,30 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<void> addToCart(context, FoodModel fdModel, int index) async {
+  Future<void> addToCart(context,FoodModel fdModel) async {
+
+
     CartItems cartItem = Provider.of<CartItems>(context, listen: false);
     fdModel.quantity = quantity;
     bool exist = false;
     var foodInCart = cartItem.foodModel;
-    for (var fdInCart in foodInCart) {
-      if (fdInCart.title == fdModel.title) {
+    for(var fdInCart in foodInCart){
+
+      if(fdInCart.title == fdModel.title){
+
         exist = true;
       }
     }
-    if (exist) {
+    if(exist){
+
       showDialog(
           context: context,
-          builder: (BuildContext context) {
+          builder: (BuildContext context){
             return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              filter: ImageFilter.blur(
+                  sigmaX: 4,
+                  sigmaY: 4
+              ),
               child: AlertDialog(
                 title: Icon(
                   Icons_foodApp.order_success,
@@ -329,19 +343,16 @@ class _SearchPageState extends State<SearchPage> {
                     color: Colors.redAccent,
                   ),
                 ),
+
               ),
             );
-          });
-    } else {
-      // save each order food to google sheet
+          }
+      );
 
-      final saveToGSheet = {
-        OrderSheetModel.userName: snapshot?.data()["UserName"],
-        fdModel.title: fdModel.quantity,
-        OrderSheetModel().date: DateTime.now().toString(),
-      };
 
-      await GSheetApi().insert([saveToGSheet]);
+    }
+    else{
+
 
       cartItem.addFood(fdModel);
 
@@ -351,9 +362,12 @@ class _SearchPageState extends State<SearchPage> {
 
       showDialog(
           context: context,
-          builder: (BuildContext context) {
+          builder: (BuildContext context){
             return BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+              filter: ImageFilter.blur(
+                  sigmaX: 4,
+                  sigmaY: 4
+              ),
               child: AlertDialog(
                 title: Icon(
                   Icons_foodApp.order_success,
@@ -369,9 +383,14 @@ class _SearchPageState extends State<SearchPage> {
                     color: Color(0xff707070),
                   ),
                 ),
+
               ),
             );
-          });
+          }
+      );
+
     }
+
   }
+
 }

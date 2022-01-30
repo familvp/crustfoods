@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 // illustrations welcome Screen
 const logo_app = "assets/icons/CrustFoodLogoBlack.png";
+const logo = "assets/icons/logo.png";
 
 // illustrations for page empty
 const cart_empty = "assets/illustrations/empty_cart.svg";

@@ -16,6 +16,9 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
 
+import 'Edit.dart';
+import 'OrderTodays.dart';
+
 class MainPage extends StatefulWidget {
   static String id = "MainPage";
 
@@ -57,9 +60,9 @@ class _MainPageState extends State<MainPage> {
 
   List<Widget> _pages = <Widget>[
     Home(),
-    OrderTracking(),
     CartPage(),
-    SearchPage()
+    OrderTodays(),
+    Edit()
   ];
 
   @override
@@ -115,30 +118,7 @@ class _MainPageState extends State<MainPage> {
                                         color: Colors.black,
                                         fontFamily: "Montserrat"),
                                   ),
-                                  GButton(
-                                    icon: Icons_foodApp.order,
-                                    text: 'Order',
-                                    textStyle: TextStyle(
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black,
-                                        fontFamily: "Montserrat"),
-                                    leading: _selectedIndex == 1 ||
-                                            snapshot.data.docs.length == 0
-                                        ? null
-                                        : Badge(
-                                            animationType:
-                                                BadgeAnimationType.scale,
-                                            animationDuration:
-                                                Duration(milliseconds: 400),
-                                            badgeColor: Color(0xffff124d),
-                                            elevation: 0,
-                                            position: BadgePosition.topEnd(
-                                                top: -3, end: -2),
-                                            child: Icon(
-                                              Icons_foodApp.order,
-                                              color: Colors.white,
-                                            )),
-                                  ),
+
                                   GButton(
                                     text: 'Cart',
                                     icon: Icons_foodApp.cart,
@@ -173,8 +153,32 @@ class _MainPageState extends State<MainPage> {
                                             )),
                                   ),
                                   GButton(
-                                    icon: Icons_foodApp.search,
-                                    text: 'Search',
+                                    icon: Icons_foodApp.order,
+                                    text: 'Orders',
+                                    textStyle: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.black,
+                                        fontFamily: "Montserrat"),
+                                    leading: _selectedIndex == 1 ||
+                                        snapshot.data.docs.length == 0
+                                        ? null
+                                        : Badge(
+                                        animationType:
+                                        BadgeAnimationType.scale,
+                                        animationDuration:
+                                        Duration(milliseconds: 400),
+                                        badgeColor: Color(0xffff124d),
+                                        elevation: 0,
+                                        position: BadgePosition.topEnd(
+                                            top: -3, end: -2),
+                                        child: Icon(
+                                          Icons_foodApp.order,
+                                          color: Colors.white,
+                                        )),
+                                  ),
+                                  GButton(
+                                    icon: Icons_foodApp.settings,
+                                    text: 'Admin',
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.normal,
                                         color: Colors.black,

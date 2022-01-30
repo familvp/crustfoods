@@ -1,7 +1,10 @@
 
 class DropDownMenuModel {
-  final String routesNum;
+   String routesNum;
+   String category;
+
   DropDownMenuModel({
     this.routesNum,
+    this.category,
   });
 }

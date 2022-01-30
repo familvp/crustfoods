@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
 import 'package:fooddeliveryapp/Pages/SignInPage.dart';
 
+import 'SignUpPage.dart';
+
 class OnBoardingScreens extends StatefulWidget {
   static String id = "OnBoardingScreens";
 
@@ -19,18 +21,18 @@ class _OnBoardingScreensState extends State<OnBoardingScreens> {
         children: <Widget>[
           Center(
               child: Image.asset(
-            logo_app,
-            height: 180,
-            width: 180,
+            logo,
+            height: 250,
+            width: 250,
           )),
-          SizedBox(height: 40.0),
+          SizedBox(height: 5.0),
           Container(
             alignment: Alignment.center,
             child: Text(
               'Crust Foods',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30,
+                fontSize: 35,
                 fontWeight: FontWeight.w600,
                 fontFamily: "Montserrat",
                 height: 1.3,
@@ -47,7 +49,7 @@ class _OnBoardingScreensState extends State<OnBoardingScreens> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xff707070),
-                fontSize: 14,
+                fontSize: 18,
                 fontFamily: "Montserrat",
                 height: 1.3,
               ),

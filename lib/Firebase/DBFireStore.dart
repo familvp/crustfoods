@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fooddeliveryapp/GlobalVariable/GlobalVariable.dart';
+import 'package:fooddeliveryapp/model/AddFoodModel.dart';
+import 'package:fooddeliveryapp/model/AddShopeNameModel.dart';
 
 class DBFireStore {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -23,7 +26,7 @@ class DBFireStore {
     final uid = user.uid;
 
     return _firestore
-        .collection("newUser")
+        .collection("admin")
         .doc(uid)
         .collection("orders")
         .snapshots();
@@ -33,7 +36,7 @@ class DBFireStore {
     String uid = _auth.currentUser.uid;
 
     return _firestore
-        .collection("newUser")
+        .collection("admin")
         .doc(uid)
         .collection("orders")
         .doc(documentId)
@@ -45,7 +48,7 @@ class DBFireStore {
     final User user = _auth.currentUser;
     final uid = user.uid;
 
-    var userOrder = _firestore.collection("newUser").doc(uid);
+    var userOrder = _firestore.collection("admin").doc(uid);
     var orderUser = userOrder.collection("orders").doc();
     orderUser.set(orders);
   }
@@ -56,5 +59,72 @@ class DBFireStore {
     await _firestore.collection("OrderHistory").doc(uid).set(
           orders,
         );
+  }
+  Stream<QuerySnapshot> loadOrdersHistory() {
+    return _firestore.collection("OrderHistory").snapshots();
+  }
+
+  addFoodItems(AddFoodModel addFoodModel) async {
+    List<String> splitList = addFoodModel.title.split(" ");
+
+    List<String> indexList = [];
+
+    for (int i = 0; i < splitList.length; i++) {
+      for (int y = 1; y < splitList[i].length + i; y++) {
+        indexList.add(splitList[i].substring(0, y).toLowerCase());
+      }
+    }
+
+    await _firestore.collection("foods").doc().set({
+      "foodImage": addFoodModel.image,
+      "foodTitle": addFoodModel.title,
+      "foodPrice": addFoodModel.price,
+      "foodShortName": addFoodModel.shortname,
+      "foodCategory": addFoodModel.category,
+      "searchIndex": indexList,
+    });
+  }
+
+  updateFoodItem(AddFoodModel addFoodModel, documentID) async {
+    List<String> splitList = addFoodModel.title.split(" ");
+
+    List<String> indexList = [];
+
+    for (int i = 0; i < splitList.length; i++) {
+      for (int y = 1; y < splitList[i].length + i; y++) {
+        indexList.add(splitList[i].substring(0, y).toLowerCase());
+      }
+    }
+
+    await _firestore.collection("foods").doc(documentID).update({
+      "foodImage": addFoodModel.image,
+      "foodTitle": addFoodModel.title,
+      "foodPrice": addFoodModel.price,
+      "foodShortName": addFoodModel.shortname,
+      "foodCategory": addFoodModel.category,
+      "searchIndex": indexList,
+    });
+  }
+
+  deleteFoods(documentId) {
+    _firestore.collection("foods").doc(documentId).delete();
+
+  }
+  addShopeName(AddShopeNameModel addShopeNameModel) async {
+    List<String> splitList = addShopeNameModel.shopename.split(" ");
+
+    List<String> indexList = [];
+
+    for (int i = 0; i < splitList.length; i++) {
+      for (int y = 1; y < splitList[i].length + i; y++) {
+        indexList.add(splitList[i].substring(0, y).toLowerCase());
+      }
+    }
+
+    await _firestore.collection("ShopeNames").doc().set({
+      'ShopeName': addShopeNameModel.shopename,
+      'Routes': addShopeNameModel.routes,
+      "searchIndex": indexList,
+    });
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,12 +13,18 @@ import 'package:fooddeliveryapp/GlobalVariable/GlobalVariable.dart';
 import 'package:fooddeliveryapp/Google%20Sheet%20Api/GSheetApi.dart';
 import 'package:fooddeliveryapp/Icons_illustrations/Icons_illustrations.dart';
 import 'package:fooddeliveryapp/Pages/AboutUs.dart';
+import 'package:fooddeliveryapp/Pages/SearchPage.dart';
+import 'package:fooddeliveryapp/Pages/UserEdit.dart';
 import 'package:fooddeliveryapp/Provider/CartItem.dart';
 import 'package:fooddeliveryapp/Theme/Theme.dart';
 import 'package:fooddeliveryapp/model/OrderSheetModel.dart';
+import 'package:fooddeliveryapp/model/UserModel.dart';
 import 'package:fooddeliveryapp/model/foodModel.dart';
+import 'package:fooddeliveryapp/model/orderModel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'NewLogin.dart';
+import 'PinCode.dart';
 import 'SignInPage.dart';
 
 class Home extends StatefulWidget {
@@ -56,9 +63,12 @@ class _HomeState extends State<Home> {
 
     FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    var data = await _firestore.collection("newUser").doc(uid).get();
-
-    return snapshot = data;
+    await _firestore.collection("admin").doc(uid).get().then((value) {
+      setState(() {
+        snapshot = value;
+      });
+    });
+    return snapshot;
   }
 
   @override
@@ -103,7 +113,7 @@ class _HomeState extends State<Home> {
                                 Container(
                                   width: 160,
                                   child: Text(
-                                     "User",
+                                     "",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -115,7 +125,8 @@ class _HomeState extends State<Home> {
                                   height: 5,
                                 ),
                                 Text(
-                                  "PhoneNumber",
+                                  //snapshot?.data()["Routes"] ??//
+                                  "",
                                   style: TextStyle(fontFamily: "Montserrat"),
                                 ),
                               ],
@@ -132,19 +143,47 @@ class _HomeState extends State<Home> {
                       height: 10,
                     ),
                     ListTile(
+                      leading: Icon(
+                        Icons.edit,
+                        size: 25,
+                      ),
+                      title: Text(
+                        'User',
+                        style:
+                            TextStyle(fontSize: 18, fontFamily: "Montserrat"),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, UserEditPage.id);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.search,
+                        size: 25,
+                      ),
+                      title: Text(
+                        'Search',
+                        style:
+                            TextStyle(fontSize: 18, fontFamily: "Montserrat"),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, SearchPage.id);
+                      },
+                    ),
+                    ListTile(
                       leading: themeSwitch
                           ? Icon(
-                              Icons_foodApp.dark_mode,
-                              size: 25,
-                            )
+                        Icons_foodApp.dark_mode,
+                        size: 25,
+                      )
                           : Icon(
-                              Icons_foodApp.white_mode,
-                              size: 25,
-                            ),
+                        Icons_foodApp.white_mode,
+                        size: 25,
+                      ),
                       title: Text(
                         'Switch Theme',
                         style:
-                            TextStyle(fontSize: 18, fontFamily: "Montserrat"),
+                        TextStyle(fontSize: 18, fontFamily: "Montserrat"),
                       ),
                       onTap: () {
                         setState(() {
@@ -161,10 +200,24 @@ class _HomeState extends State<Home> {
                       title: Text(
                         'About Us',
                         style:
-                            TextStyle(fontSize: 18, fontFamily: "Montserrat"),
+                        TextStyle(fontSize: 18, fontFamily: "Montserrat"),
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, AboutUs.id);
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.new_releases,
+                        size: 25,
+                      ),
+                      title: Text(
+                        'New Login',
+                        style:
+                        TextStyle(fontSize: 18, fontFamily: "Montserrat"),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, PinCodePage.id);
                       },
                     ),
                     ListTile(
@@ -569,6 +622,9 @@ class _HomeState extends State<Home> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
+            Timer(Duration(seconds: 1), () {
+              Navigator.pop(context);
+            });
             return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
               child: AlertDialog(
@@ -601,6 +657,9 @@ class _HomeState extends State<Home> {
       showDialog(
           context: context,
           builder: (BuildContext context) {
+            Timer(Duration(milliseconds: 400), () {
+              Navigator.pop(context);
+            });
             return BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
               child: AlertDialog(

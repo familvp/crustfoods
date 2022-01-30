@@ -4,14 +4,23 @@ import 'package:flutter/services.dart';
 import 'package:fooddeliveryapp/Google%20Sheet%20Api/GSheetApi.dart';
 import 'package:fooddeliveryapp/Pages/AboutUs.dart';
 import 'package:fooddeliveryapp/Pages/CartPage.dart';
+import 'package:fooddeliveryapp/Pages/NewLogin.dart';
 import 'package:fooddeliveryapp/Pages/OrderDetails.dart';
+import 'package:fooddeliveryapp/Pages/SearchPage.dart';
 import 'package:fooddeliveryapp/Pages/SignInPage.dart';
 import 'package:fooddeliveryapp/Provider/CartItem.dart';
 import 'package:fooddeliveryapp/Provider/ModalHudProgress.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Pages/AddFoodPage.dart';
+import 'Pages/Edit.dart';
 import 'Pages/MainPage.dart';
 import 'Pages/OnBoardingScreens.dart';
+import 'Pages/OrderTodays.dart';
+import 'Pages/PinCode.dart';
+import 'Pages/SignUpPage.dart';
+import 'Pages/UpdateFoodPage.dart';
+import 'Pages/UserEdit.dart';
 import 'Theme/Theme.dart';
 
 // remember me sign in
@@ -61,6 +70,16 @@ class MyApp extends StatelessWidget {
           AboutUs.id: (context) => AboutUs(),
           SignInPage.id: (context) => SignInPage(),
           MainPage.id: (context) => MainPage(),
+          SignUpPage.id: (context) => SignUpPage(),
+          UserEditPage.id: (context) => UserEditPage(),
+          Edit.id: (context) => Edit(),
+          AddFoodPage.id: (context) => AddFoodPage(),
+          OrderTodays.id: (context) => OrderTodays(),
+          UpdateFoodPage.id: (context) => UpdateFoodPage(),
+          SearchPage.id: (context) => SearchPage(),
+          NewLoginPage.id: (context) => NewLoginPage(),
+          PinCodePage.id: (context) => PinCodePage(),
+
         },
       );
     });

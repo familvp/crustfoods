@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class FoodModel {
+  String id;
   String image;
   String title;
   String shortname;
@@ -9,7 +10,8 @@ class FoodModel {
   int quantity;
 
   FoodModel(
-      {this.image,
+      {this.id,
+      this.image,
       this.title,
       @required this.shortname,
       this.price,
